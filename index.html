@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ubuntu Community</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <div class="logo">U</div>
+        <div class="brand-text">
+          <h1>Ubuntu Community</h1>
+          <p class="tag">A friendly space for Ubuntu users & contributors</p>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav-btn" data-target="home">Home</button>
+        <button class="nav-btn" data-target="features">Features</button>
+        <button class="nav-btn" data-target="results">Results</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HOME -->
+    <section id="home" class="page visible">
+      <div class="hero">
+        <div class="hero-left">
+          <h2>Welcome to Ubuntu Community</h2>
+          <p>This space helps Ubuntu users discover news, get support, and contribute. Use the buttons below to explore features and see a demo result.</p>
+          <div class="hero-actions">
+            <button class="btn primary" data-target="features">Explore Features</button>
+            <button class="btn ghost" data-target="results">See Demo Result</button>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="banner">Main banner image</div>
+        </div>
+      </div>
+
+      <div class="grid-3 cards">
+        <article class="card">
+          <h3>Fast support</h3>
+          <p>Find answers quickly with community guides and forum links.</p>
+        </article>
+        <article class="card">
+          <h3>Open collaboration</h3>
+          <p>Contribute to projects, translations, and documentation.</p>
+        </article>
+        <article class="card">
+          <h3>Events</h3>
+          <p>Stay updated on meetups, releases and community calls.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section id="features" class="page">
+      <h2>Features</h2>
+      <p class="muted">Choose an option below to proceed. The layout is intentionally simple so users can quickly decide.</p>
+      <div class="grid-3 feature-list">
+        <div class="feature">
+          <h3>News &amp; Updates</h3>
+          <p>Latest Ubuntu community news and events.</p>
+          <div class="feature-actions"><button class="btn primary select" data-feature="News &amp; Updates">Select</button></div>
+        </div>
+        <div class="feature">
+          <h3>Support</h3>
+          <p>Find help, documentation and community forums.</p>
+          <div class="feature-actions"><button class="btn primary select" data-feature="Support">Select</button></div>
+        </div>
+        <div class="feature">
+          <h3>Contribute</h3>
+          <p>Ways to contribute: code, translations, docs.</p>
+          <div class="feature-actions"><button class="btn primary select" data-feature="Contribute">Select</button></div>
+        </div>
+      </div>
+
+      <div class="actions-row">
+        <button class="btn secondary" data-target="results">Continue to Results</button>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section id="results" class="page">
+      <h2>Results</h2>
+      <div class="result-card">
+        <div id="result-content">
+          <p class="muted">No selection made yet. This page shows the output based on the user's choice. Try selecting a feature in the Features page.</p>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn primary choose-feature" data-target="features">Choose a Feature</button>
+          <button class="btn secondary restart">Restart</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <small>© 2025 Ubuntu Community</small>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Small JavaScript to switch pages and show selection
+    document.addEventListener('DOMContentLoaded', function(){
+      const navBtns = document.querySelectorAll('.nav-btn, .btn[data-target]');
+      navBtns.forEach(b => b.addEventListener('click', (e) => {
+        const t = e.currentTarget.dataset.target;
+        if (t) showPage(t);
+      }));
+
+      document.querySelectorAll('.select').forEach(s => s.addEventListener('click', (e)=>{
+        const feature = e.currentTarget.dataset.feature;
+        showResult(feature);
+      }));
+
+      document.querySelector('.restart').addEventListener('click', ()=>{
+        showPage('home');
+        setResult(null);
+      });
+
+      function showPage(id){
+        document.querySelectorAll('.page').forEach(p=>p.classList.remove('visible'));
+        const el = document.getElementById(id);
+        if (el) el.classList.add('visible');
+        window.scrollTo({top:0, behavior:'smooth'});
+      }
+
+      function showResult(feature){
+        setResult(feature);
+        showPage('results');
+      }
+
+      function setResult(feature){
+        const rc = document.getElementById('result-content');
+        if (!feature){
+          rc.innerHTML = '<p class="muted">No selection made yet. This page shows the output based on the user\'s choice. Try selecting a feature in the Features page.</p>';
+          return;
+        }
+        rc.innerHTML = `
+          <h3>${feature}</h3>
+          <p class="lead">Sample output for <em>${feature}</em></p>
+          <div class="big-area">This area is designed to display the main result clearly and prominently.</div>
+        `;
+      }
+
+      // init
+      showPage('home');
+    });
+  </script>
+</body>
+</html>
